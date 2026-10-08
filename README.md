@@ -43,9 +43,7 @@ built in Python for full Kali-native control.
 ```bash
 # 1. System packages
 sudo apt update
-sudo apt install -y python3 python3-pip python3-venv git \
-    docker.io docker-compose \
-    libkrb5-dev krb5-user build-essential
+sudo apt install -y python3 python3-pip python3-venv git docker.io docker-compose libkrb5-dev krb5-user build-essential
 
 # 2. Clone / enter project directory
 cd ~/adenum         # wherever you extracted the project
