@@ -44,7 +44,7 @@ built in Python for full Kali-native control.
 # 1. System packages
 sudo apt update
 sudo apt install -y python3 python3-pip python3-venv git \
-    docker.io docker-compose-plugin \
+    docker.io docker-compose \
     libkrb5-dev krb5-user build-essential
 
 # 2. Clone / enter project directory
@@ -70,10 +70,10 @@ adenum --help
 
 ```bash
 # Start only the Neo4j container (run the Python CLI locally)
-docker compose up -d neo4j
+sudo docker-compose up -d neo4j
 
 # Wait for it to be healthy (~30 s on first pull)
-docker compose ps
+sudo docker-compose ps
 # adenum-neo4j   running (healthy)
 
 # Open Neo4j browser (optional)
@@ -206,15 +206,15 @@ xdg-open http://localhost:8080/docs
 
 ```bash
 # Build and start everything
-docker compose up -d --build
+sudo docker-compose up -d --build
 
 # Run collector/ingest from inside the container
-docker exec -it adenum-api adenum collect -d corp.local -u svc -p pw -dc-ip 10.10.10.5
-docker exec -it adenum-api adenum ingest --input /app/collected/adenum_collection_corp.local.json
-docker exec -it adenum-api adenum query --kerberoastable
+sudo docker exec -it adenum-api adenum collect -d corp.local -u svc -p pw -dc-ip 10.10.10.5
+sudo docker exec -it adenum-api adenum ingest --input /app/collected/adenum_collection_corp.local.json
+sudo docker exec -it adenum-api adenum query --kerberoastable
 
 # Logs
-docker compose logs -f api
+sudo docker-compose logs -f api
 ```
 
 ---
@@ -353,7 +353,7 @@ MATCH (start)-[*1..5]->(da:Group) WHERE da.name =~ '(?i)domain admins.*' RETURN 
 |-------|-----|
 | `ldap3.core.exceptions.LDAPSocketOpenError` | DC IP unreachable — check firewall/VPN/port 389 |
 | `invalidCredentials` on bind | Wrong domain\\user\\password — verify NTLM format |
-| `ServiceUnavailable` from neo4j driver | Neo4j not up — `docker compose up -d neo4j` and wait for healthy |
+| `ServiceUnavailable` from neo4j driver | Neo4j not up — `sudo docker-compose up -d neo4j` and wait for healthy |
 | `impacket` fails to build | `sudo apt install libkrb5-dev krb5-user build-essential` then retry |
 | Empty query results after ingest | Check ingest stats — zero counts = wrong JSON path or empty file |
 | `version` deprecation warning in Docker | Already fixed — `version:` key removed from docker-compose.yml |
